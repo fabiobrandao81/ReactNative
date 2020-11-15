@@ -12,7 +12,6 @@ type props = {
 };
 
 const RestaurantList: FC<props> = (props) => {
-  console.log(props);
   return (
     <FlatList
       style={styles.container}

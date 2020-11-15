@@ -11,13 +11,13 @@ type props = {
 
 export const CuisineList: FC<props> = (props) => (
   <Text style={styles.item}>
-    {'Cuisines: ' + props.data.map((item) => item.Name + '\n')}
+    {'Cuisines: ' + props.data.map((item) => item.Name)}
   </Text>
 );
 
 const styles = StyleSheet.create({
   item: {
-    padding: 20,
+    padding: 5,
     marginVertical: 8,
   },
 });

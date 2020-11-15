@@ -2,10 +2,11 @@
  * Service layer to access the App's backend
  */
 
-const url: string = '​https://uk.api.just-eat.io/restaurants/bypostcode/';
+import Axios from 'axios';
 
 export type Restaurant = {
   Name: string;
+  LogoUrl: string;
   RatingStars: number;
   Cuisines: Cuisine[];
 };
@@ -15,18 +16,15 @@ export type Cuisine = {
 };
 
 export const getRestaurants = async (code: string): Promise<Restaurant[]> => {
+  const config = {
+    baseURL: 'https://uk.api.just-eat.io/restaurants/bypostcode/',
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
+  };
   // fetch and format data
   try {
-    const response = await fetch(url.concat(code), {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.json.Restaurants;
+    const response = await Axios.get(code, config);
+    return response.data.Restaurants;
   } catch (e) {
     console.error(e);
-    return [{Name: url + code, RatingStars: 0, Cuisines: []}];
   }
 };
