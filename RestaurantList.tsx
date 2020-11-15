@@ -3,32 +3,22 @@
  */
 
 import React, {FC} from 'react';
-import {StyleSheet, View, Text, FlatList} from 'react-native';
-
-type 
+import {StyleSheet, FlatList} from 'react-native';
+import {Restaurant} from './service';
+import RestaurantItem from './RestaurantItem';
 
 type props = {
-  data: [];
+  data: Restaurant[];
 };
 
 const RestaurantList: FC<props> = (props) => {
-  const Item = ({title}) => (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title.Name}</Text>
-      <Text style={styles.title}>{'Rating: ' + title.RatingStars}</Text>
-      <Text style={styles.title}>
-        {'Cuisines: ' + title.Cuisine.map(() => title.Cuisines.Name + '\n')}
-      </Text>
-    </View>
-  );
-
+  console.log(props);
   return (
     <FlatList
       style={styles.container}
       data={props.data}
-      //
-      keyExtractor={(item, index) => item + index}
-      renderItem={({item}) => <Item title={item} />}
+      keyExtractor={(item, index) => item.Name + index}
+      renderItem={({item}) => <RestaurantItem item={item} />}
     />
   );
 };

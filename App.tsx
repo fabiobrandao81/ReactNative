@@ -8,11 +8,10 @@
  * @format
  */
 
-import React, {Component} from 'react';
+import React, {FC, useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   StatusBar,
@@ -20,86 +19,59 @@ import {
   Button,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import RestaurantList from './RestaurantList';
+import {getRestaurants, Restaurant} from './service';
 
 declare const global: {HermesInternal: null | {}};
 
-class App extends Component {
-  private endpointURL: string =
-    '​https://uk.api.just-eat.io/restaurants/bypostcode';
+const App: FC = () => {
+  const [showList, setShowList] = useState(false);
+  const [postCode, setPostCode] = useState('');
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  let errorMessage: string = '';
 
-  state = {showList: false, postCode: '', restaurants: {}};
+  const submitForm = async () => {
+    const response = await getRestaurants(postCode);
+    if (response.length > 0) {
+      setShowList(true);
+      setRestaurants(response);
+    } else {
+      errorMessage = postCode;
+    }
+  };
 
-  constructor(props) {
-    super(props);
-
-    this.updateFormField = this.updateFormField.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-  }
-
-  updateFormField(fieldName: string) {
-    return (event) => {
-      this.setState({
-        [fieldName]: event.nativeEvent.text,
-      });
-    };
-  }
-
-  async submitForm(event) {
-    const {postCode: string} = this.state;
-    // apend post code to endpoint
-    console.log(this.endpointURL + '/' + this.state.postCode);
-    // fetch and format data
-    const response = await fetch(this.endpointURL + '/' + this.state.postCode);
-    // print data
-    this.setState({showList: true, restaurants: response.json.Restaurants});
-  }
-
-  render() {
-    return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            {global.HermesInternal == null ? null : (
-              <View style={styles.engine}>
-                <Text style={styles.footer}>Engine: Hermes</Text>
-              </View>
-            )}
-            <View style={styles.body}>
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>myRestaurats</Text>
-                <Text style={styles.sectionDescription}>
-                  You're hungry, right?'
-                </Text>
-                <Text style={styles.sectionDescription}>
-                  Let's take a look at the options around you.
-                </Text>
-                <TextInput
-                  style={{borderColor: 'gray', borderWidth: 1}}
-                  placeholder="Type a post code here"
-                  onChangeText={this.updateFormField('postCode')}
-                  value={this.state.postCode}
-                />
-                <Button title="Where can I order?" onPress={this.submitForm} />
-              </View>
-            </View>
-          </ScrollView>
-          {this.state.showList && <RestaurantList />}
-        </SafeAreaView>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView style={styles.safeview}>
+        {global.HermesInternal == null ? null : (
+          <View style={styles.engine}>
+            <Text style={styles.footer}>Engine: Hermes</Text>
+          </View>
+        )}
+        <View style={styles.body}>
+          <View style={styles.sectionContainer}>
+            <Text style={styles.sectionTitle}>myRestaurants</Text>
+            <Text style={styles.sectionDescription}>You're hungry, right?</Text>
+            <Text style={styles.sectionDescription}>
+              Let's take a look at the options around you.
+            </Text>
+            <TextInput
+              style={{borderColor: 'gray', borderWidth: 1}}
+              placeholder="Type a post code here"
+              onChangeText={(text) => setPostCode(text)}
+              defaultValue={postCode}
+            />
+            <Button title="Where can I order?" onPress={submitForm} />
+          </View>
+        </View>
+        {showList && <RestaurantList data={restaurants} />}
+        <Text style={styles.sectionDescription}>{errorMessage}</Text>
+      </SafeAreaView>
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -138,6 +110,9 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingRight: 12,
     textAlign: 'right',
+  },
+  safeview: {
+    flex: 1,
   },
 });
 
