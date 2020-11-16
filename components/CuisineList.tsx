@@ -6,7 +6,7 @@
  */
 import React, {FC} from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {Cuisine} from './service';
+import {Cuisine} from '../service/service';
 
 type props = {
   data: Cuisine[];

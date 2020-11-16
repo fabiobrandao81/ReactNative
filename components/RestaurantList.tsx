@@ -7,7 +7,7 @@
 
 import React, {FC} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
-import {Restaurant} from './service';
+import {Restaurant} from '../service/service';
 import RestaurantItem from './RestaurantItem';
 
 type props = {

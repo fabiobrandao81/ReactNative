@@ -17,8 +17,8 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import RestaurantList from './RestaurantList';
-import {getRestaurants, Restaurant} from './service';
+import RestaurantList from '../components/RestaurantList';
+import {getRestaurants, Restaurant} from '../service/service';
 
 const MainScreen: FC = () => {
   // required state variables

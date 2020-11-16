@@ -14,7 +14,7 @@ import {
   TouchableHighlight,
   Modal,
 } from 'react-native';
-import {Restaurant} from './service';
+import {Restaurant} from '../service/service';
 import {CuisineList} from './CuisineList';
 
 type props = {
