@@ -13,7 +13,7 @@
 
 import React, {FC} from 'react';
 
-import MainScreen from './MainScreen';
+import MainScreen from './screens/MainScreen';
 
 const App: FC = () => {
   return <MainScreen />;
