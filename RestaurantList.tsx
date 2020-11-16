@@ -1,4 +1,7 @@
 /**
+ * Code Chalange
+ * @author Fabio Brandao
+ *
  * Component to display a list of restaurants.
  */
 
@@ -14,6 +17,7 @@ type props = {
 const RestaurantList: FC<props> = (props) => {
   return (
     <FlatList
+      keyboardShouldPersistTaps="handled"
       style={styles.container}
       data={props.data}
       keyExtractor={(item, index) => item.Name + index}
@@ -26,17 +30,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10,
     marginHorizontal: 16,
-  },
-  item: {
-    padding: 20,
-    marginVertical: 8,
-  },
-  header: {
-    backgroundColor: '#d4ebf3',
-    fontSize: 32,
-  },
-  title: {
-    fontSize: 24,
   },
 });
 

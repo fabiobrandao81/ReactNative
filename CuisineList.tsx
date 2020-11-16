@@ -1,4 +1,7 @@
 /**
+ * Code Chalange
+ * @author Fabio Brandao
+ *
  * Component used to create the cuisine list for each restaurant.
  */
 import React, {FC} from 'react';
